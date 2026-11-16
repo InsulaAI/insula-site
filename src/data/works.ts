@@ -19,7 +19,7 @@ export const works: Work[] = [
     slug: 'mercado-pago',
     title: 'Mercado Pago',
     video: { yt: '0Z5S6LgLesU' },
-    credits: [{ label: 'Brand', value: 'Mercado Pago' }],
+    credits: [{ label: 'Brand', value: 'Mercado Pago' }, { label: 'Director', value: 'Harbor' }],
   },
   {
     slug: 'clear-men',
