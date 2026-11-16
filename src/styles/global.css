@@ -1,0 +1,97 @@
+@import '@fontsource-variable/montserrat';
+@import '@fontsource-variable/raleway';
+
+:root {
+  --ground: #151515;
+  --ground-2: #1c1c1c;
+  --line: #2d2d2d;
+  --text: #e0e0e0;
+  --text-2: #b2b2b2;
+  --text-3: #5f5f5f;
+  --white: #ffffff;
+  --display: 'Montserrat Variable', 'Montserrat', system-ui, sans-serif;
+  --sans: 'Raleway Variable', 'Raleway', system-ui, sans-serif;
+  --frame: 20px;
+  --maxw: 1140px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--text);
+  font: 500 15px/1.8 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+img, video, iframe { display: block; max-width: 100%; }
+a { color: inherit; }
+h1, h2, h3 { font-family: var(--display); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin: 0; }
+
+/* Moldura fixa em volta da página, como no tema atual */
+.frame { position: fixed; z-index: 40; background: var(--ground); pointer-events: none; }
+.frame.t { inset: 0 0 auto 0; height: var(--frame); }
+.frame.b { inset: auto 0 0 0; height: var(--frame); }
+.frame.l { inset: 0 auto 0 0; width: var(--frame); }
+.frame.r { inset: 0 0 0 auto; width: var(--frame); }
+
+.wrap { width: min(var(--maxw), 100% - 2 * (var(--frame) + 24px)); margin-inline: auto; }
+
+/* Navegação */
+.nav {
+  position: fixed; z-index: 50; top: var(--frame); left: var(--frame); right: var(--frame);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px clamp(16px, 7vw, 100px);
+  transition: background .3s;
+}
+.nav.solid { background: rgba(21, 21, 21, .92); backdrop-filter: blur(6px); }
+.nav .brand img { width: 52px; height: 52px; }
+.nav ul { display: flex; gap: 28px; list-style: none; margin: 0; padding: 0; }
+.nav a.l { font: 700 11px/1 var(--display); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; color: var(--white); }
+.nav a.l:hover { color: var(--text-2); }
+.nav button { display: none; background: none; border: 0; color: var(--white); padding: 8px; cursor: pointer; }
+@media (max-width: 760px) {
+  .nav button { display: block; }
+  .nav ul { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0; background: var(--ground); padding: 8px 0 16px; }
+  .nav ul.open { display: flex; }
+  .nav ul a.l { display: block; padding: 14px clamp(16px, 7vw, 100px); }
+}
+
+/* Botão circular tracejado ("Watch video", "See works") */
+.circle {
+  display: grid; place-items: center; width: 100px; height: 100px; border-radius: 50%;
+  border: 2px dashed var(--white); color: var(--white); background: none; cursor: pointer;
+  font: 800 9px/1.2 var(--display); letter-spacing: .06em; text-transform: uppercase; text-decoration: none;
+  transition: transform .4s;
+}
+.circle:hover { transform: rotate(45deg); }
+.circle span { display: block; transition: transform .4s; }
+.circle:hover span { transform: rotate(-45deg); }
+
+/* Título de seção */
+.section-title { text-align: center; font-size: clamp(34px, 5vw, 52px); padding: clamp(80px, 12vw, 140px) 0 clamp(50px, 8vw, 90px); color: var(--text); }
+
+/* Grade de trabalhos */
+.works { display: grid; grid-template-columns: 1fr 1fr; gap: 0 2px; padding: 0 var(--frame); }
+@media (max-width: 760px) { .works { grid-template-columns: 1fr; } }
+.work { position: relative; display: block; aspect-ratio: 16 / 9; overflow: hidden; text-decoration: none; background: var(--ground-2); border-bottom: 2px solid var(--ground); }
+.work img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .28; filter: grayscale(1); transform: scale(1.02); transition: opacity .5s, filter .5s, transform .8s; }
+.work h2 { position: relative; z-index: 1; display: grid; place-items: center; height: 100%; padding: 16px; text-align: center; font-size: clamp(22px, 2.4vw, 30px); color: var(--text); text-shadow: 0 2px 18px rgba(0,0,0,.6); }
+.work:hover img, .work:focus-visible img { opacity: .75; filter: none; transform: scale(1.06); }
+
+/* Rodapé */
+.footer { text-align: center; padding: 70px 0 calc(60px + var(--frame)); }
+.footer .logo { width: 110px; margin: 0 auto 40px; }
+.footer .social { display: flex; justify-content: center; gap: 22px; list-style: none; padding: 0; margin: 0 0 40px; }
+.footer .social a { font: 600 13px/1 var(--display); letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--text); }
+.footer .social a:hover { color: var(--text-2); }
+.footer .legal { font: 800 9px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; color: var(--white); }
+
+/* Lightbox do vídeo */
+dialog.lb { padding: 0; border: 0; background: transparent; width: min(1100px, 92vw); max-width: none; }
+dialog.lb::backdrop { background: rgba(0, 0, 0, .9); }
+dialog.lb .ratio { aspect-ratio: 16 / 9; background: #000; }
+dialog.lb iframe { width: 100%; height: 100%; border: 0; }
+dialog.lb .x { position: absolute; top: -44px; right: 0; background: none; border: 0; color: var(--white); font: 400 34px/1 var(--sans); cursor: pointer; }
+
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

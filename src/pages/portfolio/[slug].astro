@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import { works, embed, thumb } from '../../data/works';
+import type { Work } from '../../data/works';
+
+export function getStaticPaths() {
+  return works.map((w) => ({ params: { slug: w.slug }, props: { w } }));
+}
+
+const { w } = Astro.props as { w: Work };
+---
+<Base title={w.title} image={thumb(w)} solidNav>
+  <article class="item">
+    <h1 class="wrap">{w.title}</h1>
+    <div class="player">
+      <iframe
+        src={embed(w)}
+        title={w.title}
+        allow="autoplay; fullscreen; picture-in-picture; encrypted-media"
+        allowfullscreen
+        loading="eager"
+        referrerpolicy="strict-origin-when-cross-origin"></iframe>
+    </div>
+    <dl class="wrap credits">
+      {w.credits.map((c) => (
+        <div><dt>{c.label}</dt><dd>{c.value}</dd></div>
+      ))}
+    </dl>
+  </article>
+</Base>
+
+<style>
+  .item { padding-top: calc(var(--frame) + 110px); }
+  .item h1 { font: 500 clamp(24px, 3vw, 32px)/1.2 var(--sans); letter-spacing: 0; margin-bottom: 24px; color: var(--white); }
+  .player { margin: 0 var(--frame); background: #000; aspect-ratio: 16 / 9; max-height: calc(100svh - 160px); }
+  .player iframe { width: 100%; height: 100%; border: 0; }
+  .credits { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin-top: 12px; margin-bottom: 40px; }
+  .credits div { background: #5f5f5f; padding: 10px 14px 12px; }
+  .credits dt { font: 500 15px/1.6 var(--sans); color: var(--text); }
+  .credits dd { margin: 6px 0 0; font: 700 13px/1.4 var(--sans); color: var(--white); }
+</style>

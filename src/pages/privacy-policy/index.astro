@@ -1,0 +1,19 @@
+---
+import Base from '../../layouts/Base.astro';
+import raw from '../../data/privacy.html?raw';
+
+// Texto copiado da página "Privacy Policy" do WordPress. O <h1> original vira o título da página.
+const body = raw.replace(/<h1>[\s\S]*?<\/h1>/, '');
+---
+<Base title="Privacy Policy" solidNav>
+  <article class="wrap legal">
+    <h1>Privacy Policy</h1>
+    <Fragment set:html={body} />
+  </article>
+</Base>
+
+<style>
+  .legal { max-width: 820px; padding: calc(var(--frame) + 150px) 0 40px; }
+  .legal h1 { font-size: clamp(32px, 4vw, 44px); margin-bottom: 40px; }
+  .legal :global(p) { margin: 0 0 18px; color: var(--text-2); }
+</style>

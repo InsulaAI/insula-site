@@ -1,0 +1,38 @@
+---
+import type { Work } from '../data/works';
+import { thumb, thumbFallback } from '../data/works';
+
+interface Props { items: Work[] }
+const { items } = Astro.props;
+---
+<div class="works">
+  {items.map((w) => {
+    const fb = thumbFallback(w);
+    return (
+      <a class="work" href={`/portfolio/${w.slug}/`}>
+        <img src={thumb(w)} alt="" loading="lazy" decoding="async" data-fallback={fb} />
+        <h2>{w.title}</h2>
+      </a>
+    );
+  })}
+</div>
+
+<script>
+  // O YouTube devolve uma imagem cinza de 120 px quando o vídeo não tem capa em alta (maxresdefault).
+  // Nesse caso troca pela hqdefault, que sempre existe.
+  const swap = (img: HTMLImageElement) => {
+    const fb = img.dataset.fallback;
+    if (fb && img.naturalWidth > 0 && img.naturalWidth < 200 && img.src !== fb) img.src = fb;
+  };
+  const fail = (img: HTMLImageElement) => {
+    const fb = img.dataset.fallback;
+    if (fb && img.src !== fb) img.src = fb;
+    else img.remove(); // sem capa: fica só o título sobre o fundo, sem ícone de imagem quebrada
+  };
+  document.querySelectorAll<HTMLImageElement>('.work img').forEach((img) => {
+    img.addEventListener('load', () => swap(img));
+    img.addEventListener('error', () => fail(img));
+    // O script roda depois do HTML: a imagem pode já ter carregado ou falhado.
+    if (img.complete) img.naturalWidth === 0 ? fail(img) : swap(img);
+  });
+</script>

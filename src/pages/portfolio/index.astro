@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import WorksGrid from '../../components/WorksGrid.astro';
+import { works } from '../../data/works';
+---
+<Base title="Portfolio" solidNav>
+  <h1 class="section-title" style="padding-top:calc(var(--frame) + 150px)">Works</h1>
+  <WorksGrid items={works.filter((w) => w.inGrid !== false)} />
+</Base>

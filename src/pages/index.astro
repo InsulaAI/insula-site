@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+import WorksGrid from '../components/WorksGrid.astro';
+import { works, showreel } from '../data/works';
+import { contacts } from '../data/contacts';
+
+const grid = works.filter((w) => w.inGrid !== false);
+const reel = `https://www.youtube-nocookie.com/embed/${showreel}?rel=0&playsinline=1&autoplay=1`;
+---
+<Base>
+  <section id="home" class="hero">
+    <video class="hero-vid" autoplay muted loop playsinline preload="metadata" poster="/img/hero-poster.webp" aria-hidden="true">
+      <source src="/video/hero-960.mp4" type="video/mp4" media="(max-width: 900px)" />
+      <source src="/video/hero.mp4" type="video/mp4" />
+    </video>
+    <div class="dots" aria-hidden="true"></div>
+    <a class="circle" href={`https://youtu.be/${showreel}`} data-video={reel} aria-label="Showreel Insula Ai"><span>Watch video</span></a>
+  </section>
+
+  <section id="works">
+    <h2 class="section-title">Works</h2>
+    <WorksGrid items={grid} />
+    <div class="see-more">
+      <span class="vline"></span>
+      <a class="circle" href="/portfolio/"><span>See works</span></a>
+      <span class="vline"></span>
+    </div>
+  </section>
+
+  <section id="about" class="about">
+    <div class="wrap">
+      <h2 class="section-title">About Insula</h2>
+      <p class="kicker">Not Just Films. AI Films.</p>
+      <p>
+        At Insula AI, we don’t just generate films — we activate perception. Our name comes from the insula, a deep region
+        of the human brain responsible for emotion, self-awareness, and the way we feel, process, and understand the world
+        around us. It is where intuition meets information, where emotion becomes data, and data becomes meaning. Just like
+        its namesake, Insula AI operates at the intersection of consciousness and creativity. We use artificial intelligence
+        not to replace human creativity, but to elevate it to new levels of precision, inclusion, and depth. We craft
+        custom-made advertising films that don’t just communicate — they resonate. Every frame we create is rooted in human
+        insight and enhanced by neural design. We believe storytelling is more than words and images — it's a form of
+        synthetic perception that can shape how people see the world and themselves. This is not automation. This is
+        evolution. From the insula of the brain to the insula of creation. Welcome to the future of cinematic craft —
+        designed by intelligence, shaped by emotion, delivered with purpose.
+      </p>
+      <p class="code">
+        We abhor and do not tolerate ANY type of disrespect or prejudice whether it is for: color, gender, social status, age,
+        position, etc. Any professional who violates this code is not able to provide services to Insula. We work with
+        professionals in a way that they follow their path to achieve professional and personal goals without disrespecting,
+        diminishing, offending, attacking or having any negative attitude towards any type of human being.
+      </p>
+      <a class="apro" href="https://www.apro.org.br/associados" rel="noopener" target="_blank">
+        <img src="/img/qrcode-apro.webp" width="150" height="150" alt="QR code APRO" loading="lazy" />
+      </a>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <h2 class="section-title">Contacts</h2>
+      <ul class="people">
+        {contacts.map((c) => (
+          <li>
+            <strong>{c.region}</strong>
+            <span>{c.name}</span>
+            <span>{c.role}</span>
+            <a href={`mailto:${c.email}`}>{c.email}</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="partner">
+    <p>Parceiro</p>
+    <a href="https://triohub.io/" rel="noopener" target="_blank"><img src="/img/trio.webp" width="300" height="137" alt="TRIO Hub" loading="lazy" /></a>
+  </section>
+</Base>
+
+<style>
+  .hero { position: relative; height: 100svh; min-height: 480px; display: grid; place-items: center; overflow: hidden; }
+  .hero-vid { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; background: #000; }
+  .dots { position: absolute; top: 150px; right: 8%; width: 220px; height: 600px; max-height: 60%; background: radial-gradient(rgba(119,119,119,.75) 5%, transparent 0) 0 0 / 22px 22px; opacity: .6; pointer-events: none; }
+  @media (max-width: 760px) { .dots { display: none; } }
+  .hero .circle { position: relative; z-index: 1; }
+
+  .see-more { display: flex; flex-direction: column; align-items: center; gap: 50px; padding: 100px 0 40px; }
+  .vline { width: 1px; height: 80px; background: var(--text-3); }
+
+  .about p { max-width: 1000px; margin: 0 auto 28px; font-size: 14px; line-height: 2; color: var(--text); }
+  .about .kicker { font: italic 700 18px/1.4 var(--display); color: var(--text-3); margin-bottom: 30px; }
+  .about .code { border: 1px solid var(--text-2); padding: 14px 16px; font-size: 13px; }
+  .about .apro { display: block; width: 150px; margin: 60px auto 0; }
+
+  .contact { position: relative; margin: 80px var(--frame) 0; padding-bottom: 100px; background: url(/img/contact-bg.webp) center / cover; }
+  .contact::before { content: ''; position: absolute; inset: 0; background: rgba(21,21,21,.6); }
+  .contact .wrap { position: relative; }
+  .people { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px 24px; text-align: center; }
+  @media (max-width: 760px) { .people { grid-template-columns: 1fr; } }
+  .people li { display: flex; flex-direction: column; gap: 4px; font: 500 12px/1.6 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--white); }
+  .people strong { font-weight: 800; margin-bottom: 4px; }
+  .people a { align-self: center; text-decoration: none; border-bottom: 1px solid var(--white); text-transform: uppercase; word-break: break-all; }
+
+  .partner { text-align: center; padding: 50px 0 0; }
+  .partner p { font: 700 14px/1 system-ui, sans-serif; color: var(--white); margin: 0 0 30px; }
+  .partner img { width: 160px; height: auto; margin: 0 auto; }
+</style>

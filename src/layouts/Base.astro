@@ -1,0 +1,116 @@
+---
+import '../styles/global.css';
+import { social } from '../data/contacts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  solidNav?: boolean;
+}
+
+const DEFAULT_DESC =
+  'Insula AI operates at the intersection of consciousness and creativity. We use artificial intelligence not to replace human creativity, but to elevate it to new levels of precision, inclusion, and depth.';
+
+const { title, description = DEFAULT_DESC, image = 'https://i.ytimg.com/vi/TS8nbKD993I/maxresdefault.jpg', solidNav = false } = Astro.props;
+const fullTitle = title ? `${title} - Insula Ai` : 'Insula Ai: Limitless creativity';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// Enquanto o site novo roda no endereço de teste, fica fora do Google.
+// Na troca do domínio, definir PUBLIC_SITE_LIVE=true no Cloudflare Pages.
+const live = import.meta.env.PUBLIC_SITE_LIVE === 'true';
+const home = '/';
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {live ? <link rel="canonical" href={canonical} /> : <meta name="robots" content="noindex, nofollow" />}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Insula Ai" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#151515" />
+  </head>
+  <body>
+    <div class="frame t"></div><div class="frame b"></div><div class="frame l"></div><div class="frame r"></div>
+
+    <nav class:list={['nav', { solid: solidNav }]} id="nav" data-solid={solidNav ? '1' : undefined}>
+      <a class="brand" href={home} aria-label="Insula Ai, início"><img src="/img/logo-mark.webp" width="52" height="52" alt="Insula Ai" /></a>
+      <button type="button" aria-expanded="false" aria-controls="menu" id="menu-btn">
+        <span class="sr">Menu</span>
+        <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" /></svg>
+      </button>
+      <ul id="menu">
+        <li><a class="l" href="/#home">Home</a></li>
+        <li><a class="l" href="/#works">Works</a></li>
+        <li><a class="l" href="/#about">About</a></li>
+        <li><a class="l" href="/#contact">Contacts</a></li>
+      </ul>
+    </nav>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <a href={home}><img class="logo" src="/img/logo-footer.webp" width="110" height="110" alt="Insula Ai" loading="lazy" /></a>
+      <ul class="social">
+        <li><a href={social.linkedin} rel="noopener" target="_blank">Linkedin</a></li>
+        <li><a href={social.instagram} rel="noopener" target="_blank">Instagram</a></li>
+      </ul>
+      <a class="legal" href="/privacy-policy/">Privacy Policy</a>
+    </footer>
+
+    <dialog class="lb" id="lb" aria-label="Vídeo">
+      <button class="x" type="button" aria-label="Fechar">×</button>
+      <div class="ratio"></div>
+    </dialog>
+
+    <script>
+      const nav = document.getElementById('nav')!;
+      const btn = document.getElementById('menu-btn')!;
+      const menu = document.getElementById('menu')!;
+      btn.addEventListener('click', () => {
+        const open = menu.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      menu.addEventListener('click', (e) => {
+        if ((e.target as HTMLElement).closest('a')) { menu.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); }
+      });
+      if (!nav.dataset.solid) {
+        const onScroll = () => nav.classList.toggle('solid', scrollY > 60);
+        addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      }
+
+      // Lightbox: qualquer elemento com data-video="<url do embed>" abre o player.
+      const lb = document.getElementById('lb') as HTMLDialogElement;
+      const box = lb.querySelector('.ratio')!;
+      const close = () => { lb.close(); };
+      lb.addEventListener('close', () => { box.innerHTML = ''; });
+      lb.querySelector('.x')!.addEventListener('click', close);
+      lb.addEventListener('click', (e) => { if (e.target === lb) close(); });
+      document.addEventListener('click', (e) => {
+        const t = (e.target as HTMLElement).closest<HTMLElement>('[data-video]');
+        if (!t) return;
+        e.preventDefault();
+        const f = document.createElement('iframe');
+        f.src = t.dataset.video!;
+        f.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media';
+        f.allowFullscreen = true;
+        f.title = t.getAttribute('aria-label') || 'Vídeo';
+        box.appendChild(f);
+        lb.showModal();
+      });
+    </script>
+  </body>
+</html>
