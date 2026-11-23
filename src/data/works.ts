@@ -21,7 +21,7 @@ export const works: Work[] = [
     slug: 'nespresso',
     title: 'Nespresso',
     video: { yt: '1K_x1J1TYvw' },
-    credits: [{ label: 'Brand', value: 'Nespresso' }],
+    credits: [{ label: 'Brand', value: 'Nespresso' }, { label: 'Director', value: 'Harbor' }],
   },
   {
     slug: 'mercado-pago',
