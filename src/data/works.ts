@@ -3,6 +3,7 @@
 //
 // video: { yt: '<id de 11 caracteres>' } ou { vimeo: '<número>' }
 // credits: pares rótulo/valor mostrados nos cartões abaixo do vídeo.
+// cover: imagem própria em public/img/works/ no lugar da capa automática do YouTube/Vimeo.
 // inGrid: false mantém a página no ar sem aparecer na grade (caso do Brilhante no WordPress).
 
 export type Work = {
@@ -10,15 +11,24 @@ export type Work = {
   title: string;
   video: { yt: string } | { vimeo: string };
   credits: { label: string; value: string }[];
+  cover?: string;
   inGrid?: boolean;
   inCases?: boolean;
 };
 
 export const works: Work[] = [
   {
+    slug: 'nespresso',
+    title: 'Nespresso',
+    video: { yt: '1K_x1J1TYvw' },
+    credits: [{ label: 'Brand', value: 'Nespresso' }],
+  },
+  {
     slug: 'mercado-pago',
     title: 'Mercado Pago',
     video: { yt: '0Z5S6LgLesU' },
+    // Quadro do próprio filme no YouTube (maxres1): o mecânico de barba olhando para a câmera.
+    cover: '/img/works/mercado-pago.webp',
     credits: [{ label: 'Brand', value: 'Mercado Pago' }, { label: 'Director', value: 'Harbor' }],
   },
   {
@@ -103,12 +113,14 @@ export const works: Work[] = [
 ];
 
 export function thumb(w: Work): string {
+  if (w.cover) return w.cover;
   return 'yt' in w.video
     ? `https://i.ytimg.com/vi/${w.video.yt}/maxresdefault.jpg`
     : `https://vumbnail.com/${w.video.vimeo}.jpg`;
 }
 
 export function thumbFallback(w: Work): string | undefined {
+  if (w.cover) return undefined;
   return 'yt' in w.video ? `https://i.ytimg.com/vi/${w.video.yt}/hqdefault.jpg` : undefined;
 }
 
