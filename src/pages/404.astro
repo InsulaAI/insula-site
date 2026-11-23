@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Page not found" solidNav>
+  <section class="nf">
+    <h1>404</h1>
+    <p>This page doesn't exist or has moved.</p>
+    <a class="circle" href="/"><span>Home</span></a>
+  </section>
+</Base>
+
+<style>
+  .nf { min-height: 70svh; display: grid; place-content: center; justify-items: center; gap: 24px; text-align: center; padding: calc(var(--frame) + 120px) 16px 40px; }
+  .nf h1 { font-size: clamp(64px, 12vw, 140px); color: var(--text); }
+  .nf p { margin: 0; color: var(--text-2); }
+</style>

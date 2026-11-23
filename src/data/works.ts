@@ -3,7 +3,9 @@
 //
 // video: { yt: '<id de 11 caracteres>' } ou { vimeo: '<número>' }
 // credits: pares rótulo/valor mostrados nos cartões abaixo do vídeo.
-// cover: imagem própria em public/img/works/ no lugar da capa automática do YouTube/Vimeo.
+// cover: imagem em public/img/works/ no lugar da capa automática do YouTube.
+//   Filmes do Vimeo precisam de cover: o Vimeo não tem endereço fixo de capa, e o
+//   vumbnail.com (serviço de terceiros) falhava às vezes.
 // inGrid: false mantém a página no ar sem aparecer na grade (caso do Brilhante no WordPress).
 
 export type Work = {
@@ -69,36 +71,42 @@ export const works: Work[] = [
     slug: 'bottega-veneta',
     title: 'Bottega Veneta',
     video: { vimeo: '1106404260' },
+    cover: '/img/works/bottega-veneta.webp',
     credits: [{ label: 'Brand', value: 'Bottega Veneta' }, { label: 'Director', value: 'Niccolò Valentino' }],
   },
   {
     slug: 'gucci',
     title: 'Gucci',
     video: { vimeo: '1095704631' },
+    cover: '/img/works/gucci.webp',
     credits: [{ label: 'Brand', value: 'Gucci' }, { label: 'Director', value: 'Niccolò Valentino' }],
   },
   {
     slug: 'viaplay',
     title: 'Viaplay',
     video: { vimeo: '1068203118' },
+    cover: '/img/works/viaplay.webp',
     credits: [{ label: 'Brand', value: 'Viaplay' }, { label: 'Director', value: 'Stephane Benini' }],
   },
   {
     slug: 'fyi',
     title: 'Mercedes-Benz FYI',
     video: { vimeo: '1092449966' },
+    cover: '/img/works/fyi.webp',
     credits: [{ label: 'Brand', value: 'Mercedes-Benz' }, { label: 'Director', value: 'Stephane Benini' }],
   },
   {
     slug: 'paranoia',
     title: 'Paranoia',
     video: { vimeo: '1040247900' },
+    cover: '/img/works/paranoia.webp',
     credits: [{ label: 'Title', value: 'Paranoia' }, { label: 'Director', value: 'Stephane Benini' }],
   },
   {
     slug: 'speedhunter',
     title: 'Speedhunter',
     video: { vimeo: '1035039476' },
+    cover: '/img/works/speedhunter.webp',
     // No WordPress está "Porche"; a grafia correta é Porsche.
     credits: [{ label: 'Brand', value: 'Porsche' }, { label: 'Director', value: 'Stephane Benini' }],
   },

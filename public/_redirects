@@ -2,3 +2,8 @@
 /wp-admin/*       /             302
 /wp-login.php     /             302
 /feed/            /             301
+# Páginas de diretores do WordPress, não migradas (sem link no menu)
+/alexandragb/     /             302
+/billyboman/      /             302
+/fabio-hacker/    /             302
+/stephanebenini/  /             302
